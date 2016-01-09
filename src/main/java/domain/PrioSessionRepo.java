@@ -1,7 +1,7 @@
 package domain;
 
 public interface PrioSessionRepo {
-    PrioSession findById(String sessionId);
+    PrioSession findById(String sessionId) throws UnknownAggregateRootException;
 
-    Void update(PrioSession session);
+    void update(PrioSession session);
 }

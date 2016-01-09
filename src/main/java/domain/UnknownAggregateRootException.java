@@ -1,4 +1,4 @@
 package domain;
 
-public class UnknownAggregateRootException extends Throwable {
+public class UnknownAggregateRootException extends Exception {
 }

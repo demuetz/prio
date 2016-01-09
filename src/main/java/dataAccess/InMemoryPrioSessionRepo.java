@@ -1,28 +1,76 @@
 package dataAccess;
 
 import api.representations.Option;
-import api.representations.PrioSession;
+import api.representations.PrioSessionDto;
 import com.google.common.base.Optional;
+import domain.PrioItems;
+import domain.PrioSession;
+import domain.PrioSessionRepo;
+import domain.UnknownAggregateRootException;
 
 import java.util.*;
 
-public class InMemoryPrioSessionRepo {
+public class InMemoryPrioSessionRepo implements PrioSessionRepo {
+
 
     private Map<String, PrioSession> sessions = new HashMap<String, PrioSession>();
 
     public InMemoryPrioSessionRepo() {
 
-        for (PrioSession s:initialSessions()) {
+        for (PrioSession s : initialSessions()){
+            sessions.put(s.getId(), s);
+        }
 
-            sessions.put(s.getKey(), s);
+        for (PrioSessionDto s: initialDoofSessions()) {
+
+            doofSsessions.put(s.getKey(), s);
         }
     }
 
-    private static List<PrioSession> initialSessions(){
-        ArrayList<PrioSession> res = new ArrayList<PrioSession>();
+    private PrioSession[] initialSessions() {
 
-        res.add(PrioSession.withKeyAndOptions("abc", createOptions("Bli", "Bla", "Blubb")));
-        res.add(PrioSession.withKeyAndOptions("def", createOptions("Affe", "Zebra", "Dackel")));
+        return new PrioSession[]{
+            new PrioSession("abc", PrioItems.withText("Bli", "Bla", "Blubb")),
+            new PrioSession("def", PrioItems.withText("Affe", "Zebra", "Dackel")),
+        };
+    }
+
+
+    public PrioSession findById(String sessionId) throws UnknownAggregateRootException {
+
+        if (!sessions.containsKey(sessionId))
+            throw new UnknownAggregateRootException();
+
+        return sessions.get(sessionId);
+    }
+
+    public void update(PrioSession session) {
+        sessions.put(session.getId(), session);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private Map<String, PrioSessionDto> doofSsessions = new HashMap<String, PrioSessionDto>();
+
+
+
+    private static List<PrioSessionDto> initialDoofSessions(){
+        ArrayList<PrioSessionDto> res = new ArrayList<PrioSessionDto>();
+
+        res.add(PrioSessionDto.withKeyAndOptions("abc", createOptions("Bli", "Bla", "Blubb")));
+        res.add(PrioSessionDto.withKeyAndOptions("def", createOptions("Affe", "Zebra", "Dackel")));
 
         return res;
     }
@@ -41,22 +89,15 @@ public class InMemoryPrioSessionRepo {
     }
 
 
-    public void add(PrioSession session){
-        sessions.put(session.getKey(), session);
-    }
-
-    public void update(PrioSession session){
-        sessions.replace(session.getKey(), session);
-    }
-
-
-    public Optional<PrioSession> findByKey(String key){
-        if (sessions.containsKey(key))
-            return Optional.of(sessions.get(key));
+    public Optional<PrioSessionDto> findByKey(String key){
+        if (doofSsessions.containsKey(key))
+            return Optional.of(doofSsessions.get(key));
         return Optional.absent();
     }
 
-    public List<PrioSession> getAll() {
-        return new ArrayList<PrioSession>(sessions.values());
+    public List<PrioSessionDto> getAll() {
+        return new ArrayList<PrioSessionDto>(doofSsessions.values());
     }
+
+
 }

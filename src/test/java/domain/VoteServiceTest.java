@@ -34,16 +34,16 @@ public class VoteServiceTest {
         InOrder inOrder = inOrder(repo, session);
 
         inOrder.verify(session).cast(vote);
-        inOrder.verify(repo.update(session));
+        inOrder.verify(repo).update(session);
     }
 
-    private void castVoteOnService(Vote vote) {
+    private void castVoteOnService(Vote vote) throws UnknownAggregateRootException {
         new VoteService(repo).castVoteForSession(vote, sessionId);
     }
 
     private Vote createVote() {
         Participant p = Participant.withName("Hansi");
-        OrderedOptions o = OrderedOptions.withIds(new int[]{1,2,3});
+        VotedOptions o = VotedOptions.withIds(new int[]{1,2,3});
 
         return new Vote(p,o);
     }
@@ -54,7 +54,7 @@ public class VoteServiceTest {
         return session;
     }
 
-    private PrioSessionRepo repoContainingSession(PrioSession session){
+    private PrioSessionRepo repoContainingSession(PrioSession session) throws UnknownAggregateRootException {
         PrioSessionRepo repo = mock(PrioSessionRepo.class);
 
         when(repo.findById(session.getId())).thenReturn(session);

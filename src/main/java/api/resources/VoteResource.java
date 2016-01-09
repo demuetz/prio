@@ -1,6 +1,6 @@
 package api.resources;
 
-import api.representations.PrioSession;
+import api.representations.PrioSessionDto;
 import api.representations.Vote;
 import com.google.common.base.Optional;
 import dataAccess.InMemoryPrioSessionRepo;
@@ -23,12 +23,12 @@ public class VoteResource {
     @POST
     public Response cast(Vote vote){
 
-        Optional<PrioSession> s = sessionRepo.findByKey(vote.getSessionKey());
+        Optional<PrioSessionDto> s = sessionRepo.findByKey(vote.getSessionKey());
 
         if (!s.isPresent())
             return Response.status(403).build();
 
-        PrioSession session = s.get();
+        PrioSessionDto session = s.get();
 
 
 

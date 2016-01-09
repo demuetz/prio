@@ -8,7 +8,7 @@ public class VoteService {
         this.repo = repo;
     }
 
-    public void castVoteForSession(Vote vote, String sessionId) {
+    public void castVoteForSession(Vote vote, String sessionId) throws UnknownAggregateRootException {
 
         PrioSession session = repo.findById(sessionId);
 
