@@ -6,11 +6,11 @@ import com.google.common.base.Optional;
 
 import java.util.*;
 
-public class PrioSessionRepo {
+public class InMemoryPrioSessionRepo {
 
     private Map<String, PrioSession> sessions = new HashMap<String, PrioSession>();
 
-    public PrioSessionRepo() {
+    public InMemoryPrioSessionRepo() {
 
         for (PrioSession s:initialSessions()) {
 

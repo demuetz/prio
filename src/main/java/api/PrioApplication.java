@@ -2,7 +2,7 @@ package api;
 
 import api.resources.PrioSessionResource;
 import api.resources.VoteResource;
-import dataAccess.PrioSessionRepo;
+import dataAccess.InMemoryPrioSessionRepo;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
 
@@ -15,8 +15,9 @@ public class PrioApplication extends Application<PrioConfiguration> {
     @Override
     public void run(PrioConfiguration prioConfiguration, Environment environment) throws Exception {
 
-        environment.jersey().register(new PrioSessionResource(new PrioSessionRepo()));
-        environment.jersey().register(new VoteResource());
+        InMemoryPrioSessionRepo sessionRepo = new InMemoryPrioSessionRepo();
+        environment.jersey().register(new PrioSessionResource(sessionRepo));
+        environment.jersey().register(new VoteResource(sessionRepo));
 
     }
 }

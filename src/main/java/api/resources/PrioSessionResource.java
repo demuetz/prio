@@ -1,7 +1,6 @@
 package api.resources;
 
-import api.representations.PrioSession;
-import dataAccess.PrioSessionRepo;
+import dataAccess.InMemoryPrioSessionRepo;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -13,9 +12,9 @@ import javax.ws.rs.core.Response;
 @Produces({ MediaType.APPLICATION_JSON })
 public class PrioSessionResource {
 
-    private final PrioSessionRepo repo;
+    private final InMemoryPrioSessionRepo repo;
 
-    public PrioSessionResource(PrioSessionRepo repo) {
+    public PrioSessionResource(InMemoryPrioSessionRepo repo) {
         this.repo = repo;
     }
 
