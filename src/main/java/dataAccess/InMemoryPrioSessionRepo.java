@@ -20,11 +20,6 @@ public class InMemoryPrioSessionRepo implements PrioSessionRepo {
         for (PrioSession s : initialSessions()){
             sessions.put(s.getId(), s);
         }
-
-        for (PrioSessionDto s: initialDoofSessions()) {
-
-            doofSsessions.put(s.getId(), s);
-        }
     }
 
     private PrioSession[] initialSessions() {
@@ -49,40 +44,12 @@ public class InMemoryPrioSessionRepo implements PrioSessionRepo {
     }
 
     public List<PrioSession> getAll() {
-        return new ArrayList<PrioSession>(sessions.values());
+        return new ArrayList<>(sessions.values());
     }
 
-
-    private Map<String, PrioSessionDto> doofSsessions = new HashMap<String, PrioSessionDto>();
-
-
-
-    private static List<PrioSessionDto> initialDoofSessions(){
-        ArrayList<PrioSessionDto> res = new ArrayList<PrioSessionDto>();
-
-        res.add(PrioSessionDto.withKeyAndOptions("abc", createOptions("Bli", "Bla", "Blubb")));
-        res.add(PrioSessionDto.withKeyAndOptions("def", createOptions("Affe", "Zebra", "Dackel")));
-
-        return res;
+    @Override
+    public void create(PrioSession s) {
+        sessions.put(s.getId(), s);
     }
 
-    private static List<PrioItemDto> createOptions(String... texts) {
-
-        List<PrioItemDto> prioItemDtos = new ArrayList<PrioItemDto>();
-
-        int id = 0;
-
-        for (String t: texts) {
-            prioItemDtos.add(PrioItemDto.withIdAndText(id++, t));
-        }
-
-        return prioItemDtos;
-    }
-
-
-    public Optional<PrioSessionDto> findByKey(String key){
-        if (doofSsessions.containsKey(key))
-            return Optional.of(doofSsessions.get(key));
-        return Optional.absent();
-    }
 }

@@ -1,7 +1,6 @@
 package api.representations;
 
 import domain.PrioItem;
-import domain.PrioItems;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +36,7 @@ public class PrioItemDto {
 
     public static List<PrioItemDto> fromItems(Iterable<PrioItem> items) {
 
-        ArrayList<PrioItemDto> res = new ArrayList<PrioItemDto>();
+        ArrayList<PrioItemDto> res = new ArrayList<>();
 
         for (PrioItem i : items){
             res.add(withIdAndText(i.getId(), i.getText()));

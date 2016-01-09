@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.UUID;
+
 public class PrioSession {
 
     private String id;
@@ -21,5 +23,14 @@ public class PrioSession {
 
     public PrioItems getItems() {
         return items;
+    }
+
+    public static PrioSession create() {
+
+        return new PrioSession(UUID.randomUUID().toString(), PrioItems.empty());
+    }
+
+    public void addItems(PrioItems newItems) {
+        items = items.join(newItems);
     }
 }

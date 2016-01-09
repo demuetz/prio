@@ -29,4 +29,17 @@ public class PrioItems implements Iterable<PrioItem> {
     public Iterator<PrioItem> iterator() {
         return items.iterator();
     }
+
+    public static PrioItems empty() {
+        return new PrioItems(new ArrayList<PrioItem>());
+    }
+
+    public PrioItems join(PrioItems other) {
+        //ToDo: dedup
+
+        ArrayList<PrioItem> jointList = new ArrayList<>(items);
+        jointList.addAll(other.items);
+
+        return new PrioItems(jointList);
+    }
 }

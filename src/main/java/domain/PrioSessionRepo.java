@@ -8,4 +8,6 @@ public interface PrioSessionRepo {
     void update(PrioSession session);
 
     List<PrioSession> getAll();
+
+    void create(PrioSession s);
 }
