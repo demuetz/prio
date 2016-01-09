@@ -1,6 +1,6 @@
 package dataAccess;
 
-import api.representations.Option;
+import api.representations.PrioItemDto;
 import api.representations.PrioSessionDto;
 import com.google.common.base.Optional;
 import domain.PrioItems;
@@ -23,15 +23,15 @@ public class InMemoryPrioSessionRepo implements PrioSessionRepo {
 
         for (PrioSessionDto s: initialDoofSessions()) {
 
-            doofSsessions.put(s.getKey(), s);
+            doofSsessions.put(s.getId(), s);
         }
     }
 
     private PrioSession[] initialSessions() {
 
         return new PrioSession[]{
-            new PrioSession("abc", PrioItems.withText("Bli", "Bla", "Blubb")),
-            new PrioSession("def", PrioItems.withText("Affe", "Zebra", "Dackel")),
+            new PrioSession("abc", PrioItems.fromTexts("Bli", "Bla", "Blubb")),
+            new PrioSession("def", PrioItems.fromTexts("Affe", "Zebra", "Dackel")),
         };
     }
 
@@ -48,18 +48,9 @@ public class InMemoryPrioSessionRepo implements PrioSessionRepo {
         sessions.put(session.getId(), session);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    public List<PrioSession> getAll() {
+        return new ArrayList<PrioSession>(sessions.values());
+    }
 
 
     private Map<String, PrioSessionDto> doofSsessions = new HashMap<String, PrioSessionDto>();
@@ -75,17 +66,17 @@ public class InMemoryPrioSessionRepo implements PrioSessionRepo {
         return res;
     }
 
-    private static List<Option> createOptions(String... texts) {
+    private static List<PrioItemDto> createOptions(String... texts) {
 
-        List<Option> options = new ArrayList<Option>();
+        List<PrioItemDto> prioItemDtos = new ArrayList<PrioItemDto>();
 
         int id = 0;
 
         for (String t: texts) {
-            options.add(Option.withIdAndText(id++, t));
+            prioItemDtos.add(PrioItemDto.withIdAndText(id++, t));
         }
 
-        return options;
+        return prioItemDtos;
     }
 
 
@@ -94,10 +85,4 @@ public class InMemoryPrioSessionRepo implements PrioSessionRepo {
             return Optional.of(doofSsessions.get(key));
         return Optional.absent();
     }
-
-    public List<PrioSessionDto> getAll() {
-        return new ArrayList<PrioSessionDto>(doofSsessions.values());
-    }
-
-
 }

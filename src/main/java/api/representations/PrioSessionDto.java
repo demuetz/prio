@@ -1,17 +1,30 @@
 package api.representations;
 
+import domain.PrioSession;
+
 import java.util.List;
 
 public class PrioSessionDto {
-    private String key;
-    private List<Option> options;
+    private String id;
+    private List<PrioItemDto> items;
 
 
-    public static PrioSessionDto withKeyAndOptions(String key, List<Option> options) {
+
+    public static PrioSessionDto fromSession(PrioSession entity) {
         PrioSessionDto s = new PrioSessionDto();
 
-        s.setKey(key);
-        s.setOptions(options);
+        s.setId(entity.getId());
+        s.setItems(PrioItemDto.fromItems(entity.getItems()));
+
+        return s;
+    }
+
+
+    public static PrioSessionDto withKeyAndOptions(String key, List<PrioItemDto> prioItemDtos) {
+        PrioSessionDto s = new PrioSessionDto();
+
+        s.setId(key);
+        s.setItems(prioItemDtos);
 
         return s;
     }
@@ -21,19 +34,20 @@ public class PrioSessionDto {
 
 
 
-    public String getKey() {
-        return key;
+    public String getId() {
+        return id;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setOptions(List<Option> options) {
-        this.options = options;
+    public void setItems(List<PrioItemDto> items) {
+        this.items = items;
     }
 
-    public List<Option> getOptions() {
-        return options;
+    public List<PrioItemDto> getItems() {
+        return items;
     }
+
 }
