@@ -1,17 +1,8 @@
 package api.representations;
 
-public class Vote {
+public class VoteDto {
     private String userName;
-    private String sessionKey;
     private int[] orderedOptions;
-
-    public String getSessionKey() {
-        return sessionKey;
-    }
-
-    public void setSessionKey(String sessionKey) {
-        this.sessionKey = sessionKey;
-    }
 
     public int[] getOrderedOptions() {
         return orderedOptions;

@@ -1,12 +1,10 @@
 package api.resources;
 
 import api.representations.PrioSessionDto;
-import domain.PrioSession;
-import domain.PrioSessionRepo;
+import api.representations.VoteDto;
+import domain.*;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -34,5 +32,16 @@ public class PrioSessionResource {
         }
 
         return Response.ok(dtos).build();
+    }
+
+    @POST
+    @Path("{id}/vote")
+    public Response cast(@PathParam("id") String id, VoteDto voteDto) throws UnknownAggregateRootException {
+
+        Participant participant = Participant.withName(voteDto.getUserName());
+        VotedOptions options = VotedOptions.withIds(voteDto.getOrderedOptions());
+        new VoteService(repo).castVoteForSession(new domain.Vote(participant, options), id);
+
+        return Response.accepted().build();
     }
 }
