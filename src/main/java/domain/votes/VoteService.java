@@ -1,5 +1,6 @@
 package domain.votes;
 
+import domain.sessions.PrioResult;
 import domain.sessions.PrioSession;
 import domain.sessions.PrioSessionRepo;
 import domain.UnknownAggregateRootException;
@@ -19,5 +20,9 @@ public class VoteService {
         session.accept(vote);
 
         repo.update(session);
+    }
+
+    public PrioResult resolvePrioritiesForSession(String id) {
+        return new PrioResult(); //ToDO
     }
 }

@@ -5,6 +5,7 @@ import api.representations.PrioSessionDto;
 import api.representations.VoteDto;
 import domain.*;
 import domain.sessions.PrioItems;
+import domain.sessions.PrioResult;
 import domain.sessions.PrioSession;
 import domain.sessions.PrioSessionRepo;
 import domain.votes.Vote;
@@ -28,9 +29,11 @@ public class PrioSessionResource {
     UriInfo uriInfo;
 
     private final PrioSessionRepo repo;
+    private final VoteService service;
 
-    public PrioSessionResource(PrioSessionRepo repo) {
+    public PrioSessionResource(PrioSessionRepo repo, VoteService service) {
         this.repo = repo;
+        this.service = service;
     }
 
     @GET
@@ -65,15 +68,21 @@ public class PrioSessionResource {
         return Response.created(location).build();
     }
 
-
     @POST
     @Path("{id}/vote")
     public Response vote(@PathParam("id") String id, VoteDto voteDto) throws UnknownAggregateRootException {
 
         Participant participant = Participant.withName(voteDto.getUserName());
         VotedOptions options = VotedOptions.withIds(voteDto.getOrderedOptions());
-        new VoteService(repo).castVoteForSession(new Vote(participant, options), id);
+
+        service.castVoteForSession(new Vote(participant, options), id);
 
         return Response.accepted().build();
+    }
+
+    @GET
+    @Path("{id}/priorities")
+    public PrioResult getCurrentPriorities(@PathParam("id") String id){
+        return service.resolvePrioritiesForSession(id);
     }
 }
