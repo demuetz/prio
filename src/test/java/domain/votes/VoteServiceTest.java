@@ -4,9 +4,6 @@ import domain.Participant;
 import domain.UnknownAggregateRootException;
 import domain.sessions.PrioSession;
 import domain.sessions.PrioSessionRepo;
-import domain.votes.Vote;
-import domain.votes.VoteService;
-import domain.votes.VotedOptions;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
@@ -40,7 +37,7 @@ public class VoteServiceTest {
 
         InOrder inOrder = inOrder(repo, session);
 
-        inOrder.verify(session).cast(vote);
+        inOrder.verify(session).accept(vote);
         inOrder.verify(repo).update(session);
     }
 
@@ -49,10 +46,8 @@ public class VoteServiceTest {
     }
 
     private Vote createVote() {
-        Participant p = Participant.withName("Hansi");
-        VotedOptions o = VotedOptions.withIds(new int[]{1,2,3});
 
-        return new Vote(p,o);
+        return Vote.fromParticipantNameWithOptions("Hansi", 1,2,3);
     }
 
     private PrioSession sessionWithId(String sessionId) {

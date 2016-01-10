@@ -33,7 +33,7 @@ public class PrioSessionTest {
 
             Vote vote = new Vote(Participant.withName(name), VotedOptions.withIds(1, 2));
 
-            sut.cast(vote);
+            sut.accept(vote);
         }
     }
 

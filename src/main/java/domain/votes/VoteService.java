@@ -16,7 +16,7 @@ public class VoteService {
 
         PrioSession session = repo.findById(sessionId);
 
-        session.cast(vote);
+        session.accept(vote);
 
         repo.update(session);
     }

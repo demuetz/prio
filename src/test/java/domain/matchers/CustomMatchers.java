@@ -19,7 +19,7 @@ public class CustomMatchers {
 
             }
             public void describeTo(Description description) {
-                description.appendText("a Vote cast by each of " + String.join(", ", participantNames));
+                description.appendText("a Vote by each of " + String.join(", ", participantNames));
             }
         };
     }

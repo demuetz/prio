@@ -23,7 +23,7 @@ public class PrioSession {
     }
 
 
-    public void cast(Vote vote) {
+    public void accept(Vote vote) {
         votes.add(vote);
     }
 
