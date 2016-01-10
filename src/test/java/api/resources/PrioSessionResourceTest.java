@@ -1,5 +1,6 @@
 package api.resources;
 
+import api.exceptionMapping.UnknownAggregateRootExceptionMapper;
 import api.representations.PrioSessionDto;
 import domain.UnknownAggregateRootException;
 import domain.sessions.PrioResult;
@@ -13,6 +14,7 @@ import org.junit.ClassRule;
 import org.junit.Test;
 
 import javax.ws.rs.client.Invocation;
+import javax.ws.rs.core.Response;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
@@ -25,6 +27,7 @@ public class PrioSessionResourceTest {
     @ClassRule
     public static final ResourceTestRule resources = ResourceTestRule.builder()
             .addResource(new PrioSessionResource(repo, service))
+            .addProvider(UnknownAggregateRootExceptionMapper.class)
             .build();
 
     private final PrioSession session = PrioSession.newSession().build();
@@ -48,6 +51,15 @@ public class PrioSessionResourceTest {
         verify(repo).findById("123");
     }
 
+    @Test
+    public void returns404OnNonExistingSession() throws Exception {
+        when(repo.findById("123")).thenThrow(new UnknownAggregateRootException());
+
+        Response r = request("/prioSession/123").get();
+
+        assertEquals(404, r.getStatus());
+    }
+
     private Invocation.Builder request(String path) {
         return resources.client().target(path).request();
     }
@@ -59,7 +71,7 @@ public class PrioSessionResourceTest {
 
         when(service.resolvePrioritiesForSession("123")).thenReturn(expectedResult);
 
-        PrioResult actualResult = request("/prioSession/123/priorities").get(PrioResult.class);
+        PrioResult actualResult = request("/prioSession/123/rankedPrios").get(PrioResult.class);
 
 
     }

@@ -81,7 +81,7 @@ public class PrioSessionResource {
     }
 
     @GET
-    @Path("{id}/priorities")
+    @Path("{id}/rankedPrios")
     public PrioResult getCurrentPriorities(@PathParam("id") String id){
         return service.resolvePrioritiesForSession(id);
     }

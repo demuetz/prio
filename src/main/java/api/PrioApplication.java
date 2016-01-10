@@ -1,5 +1,6 @@
 package api;
 
+import api.exceptionMapping.UnknownAggregateRootExceptionMapper;
 import api.resources.PrioSessionResource;
 import dataAccess.InMemoryPrioSessionRepo;
 import domain.votes.VoteService;
@@ -18,6 +19,6 @@ public class PrioApplication extends Application<PrioConfiguration> {
         InMemoryPrioSessionRepo sessionRepo = new InMemoryPrioSessionRepo();
         VoteService service = new VoteService(sessionRepo);
         environment.jersey().register(new PrioSessionResource(sessionRepo, service));
-
+        environment.jersey().register(new UnknownAggregateRootExceptionMapper());
     }
 }
