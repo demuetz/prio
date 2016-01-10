@@ -1,5 +1,11 @@
-package domain;
+package domain.sessions;
 
+import domain.Participant;
+import domain.sessions.PrioItems;
+import domain.sessions.PrioResolver;
+import domain.sessions.PrioSession;
+import domain.votes.Vote;
+import domain.votes.VotedOptions;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;

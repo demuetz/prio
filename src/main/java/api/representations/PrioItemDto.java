@@ -1,6 +1,6 @@
 package api.representations;
 
-import domain.PrioItem;
+import domain.sessions.PrioItem;
 
 import java.util.ArrayList;
 import java.util.List;

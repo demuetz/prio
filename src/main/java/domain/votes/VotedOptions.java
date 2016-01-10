@@ -1,4 +1,4 @@
-package domain;
+package domain.votes;
 
 public class VotedOptions {
     public VotedOptions(int[] ids) {

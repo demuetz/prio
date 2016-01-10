@@ -4,6 +4,12 @@ import api.representations.PrioItemDto;
 import api.representations.PrioSessionDto;
 import api.representations.VoteDto;
 import domain.*;
+import domain.sessions.PrioItems;
+import domain.sessions.PrioSession;
+import domain.sessions.PrioSessionRepo;
+import domain.votes.Vote;
+import domain.votes.VoteService;
+import domain.votes.VotedOptions;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -66,7 +72,7 @@ public class PrioSessionResource {
 
         Participant participant = Participant.withName(voteDto.getUserName());
         VotedOptions options = VotedOptions.withIds(voteDto.getOrderedOptions());
-        new VoteService(repo).castVoteForSession(new domain.Vote(participant, options), id);
+        new VoteService(repo).castVoteForSession(new Vote(participant, options), id);
 
         return Response.accepted().build();
     }

@@ -1,4 +1,6 @@
-package domain;
+package domain.votes;
+
+import domain.Participant;
 
 public class Vote {
     private final Participant participant;

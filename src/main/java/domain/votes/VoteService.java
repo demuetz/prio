@@ -1,4 +1,8 @@
-package domain;
+package domain.votes;
+
+import domain.sessions.PrioSession;
+import domain.sessions.PrioSessionRepo;
+import domain.UnknownAggregateRootException;
 
 public class VoteService {
     private final PrioSessionRepo repo;

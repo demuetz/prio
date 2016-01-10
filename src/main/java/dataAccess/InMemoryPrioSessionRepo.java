@@ -1,11 +1,8 @@
 package dataAccess;
 
-import api.representations.PrioItemDto;
-import api.representations.PrioSessionDto;
-import com.google.common.base.Optional;
-import domain.PrioItems;
-import domain.PrioSession;
-import domain.PrioSessionRepo;
+import domain.sessions.PrioItems;
+import domain.sessions.PrioSession;
+import domain.sessions.PrioSessionRepo;
 import domain.UnknownAggregateRootException;
 
 import java.util.*;

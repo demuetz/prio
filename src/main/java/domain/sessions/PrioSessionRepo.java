@@ -1,4 +1,6 @@
-package domain;
+package domain.sessions;
+
+import domain.UnknownAggregateRootException;
 
 import java.util.List;
 

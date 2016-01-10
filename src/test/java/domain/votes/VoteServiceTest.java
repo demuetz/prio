@@ -1,5 +1,12 @@
-package domain;
+package domain.votes;
 
+import domain.Participant;
+import domain.UnknownAggregateRootException;
+import domain.sessions.PrioSession;
+import domain.sessions.PrioSessionRepo;
+import domain.votes.Vote;
+import domain.votes.VoteService;
+import domain.votes.VotedOptions;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;

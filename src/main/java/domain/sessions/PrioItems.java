@@ -1,4 +1,4 @@
-package domain;
+package domain.sessions;
 
 import java.util.ArrayList;
 import java.util.Collection;
