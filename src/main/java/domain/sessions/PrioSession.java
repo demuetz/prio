@@ -1,16 +1,15 @@
 package domain.sessions;
 
 import domain.votes.Vote;
+import domain.votes.Votes;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class PrioSession {
 
     private String id;
     private PrioItems items;
-    private List<Vote> votes = new ArrayList<>();
+    private Votes votes = Votes.empty();
 
     public static PrioSession create() {
 
@@ -47,6 +46,6 @@ public class PrioSession {
     }
 
     public void prioritize(PrioResolver resolver) {
-        resolver.resolve(items, votes.stream().toArray(Vote[]::new));
+        resolver.resolve(items, votes);
     }
 }

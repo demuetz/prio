@@ -1,7 +1,7 @@
 package domain.sessions;
 
-import domain.votes.Vote;
+import domain.votes.Votes;
 
 public interface PrioResolver {
-    PrioItems resolve(PrioItems options, Vote[] votes);
+    PrioItems resolve(PrioItems options, Votes votes);
 }

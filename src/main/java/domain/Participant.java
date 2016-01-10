@@ -27,4 +27,8 @@ public class Participant {
     public int hashCode() {
         return name.hashCode();
     }
+
+    public String getName() {
+        return name;
+    }
 }

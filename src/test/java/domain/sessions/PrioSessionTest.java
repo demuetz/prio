@@ -1,20 +1,15 @@
 package domain.sessions;
 
 import domain.Participant;
-import domain.sessions.PrioItems;
-import domain.sessions.PrioResolver;
-import domain.sessions.PrioSession;
 import domain.votes.Vote;
 import domain.votes.VotedOptions;
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
 
+import static domain.matchers.CustomMatchers.containsVotesFrom;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Matchers.any;
 
 public class PrioSessionTest {
 
@@ -29,8 +24,7 @@ public class PrioSessionTest {
 
         sut.prioritize(resolver);
 
-        //ToDo: verify user 2
-        verify(resolver).resolve(any(PrioItems.class), argThat(containsVotesFrom("user 1")));
+        verify(resolver).resolve(any(PrioItems.class), argThat(containsVotesFrom("user 1", "user 2")));
     }
 
     private void castVoteFromParticipant(PrioSession sut, String... names) {
@@ -41,22 +35,6 @@ public class PrioSessionTest {
 
             sut.cast(vote);
         }
-    }
-
-    private Matcher<Vote[]> containsVotesFrom(String participantName) {
-        return new TypeSafeMatcher<Vote[]>() {
-            public boolean matchesSafely(Vote[] votes) {
-
-                for (Vote v : votes)
-                    if(v.wasCastBy(Participant.withName(participantName)))
-                        return true;
-                return false;
-
-            }
-            public void describeTo(Description description) {
-                description.appendText("a Vote cast by " + participantName);
-            }
-        };
     }
 
     private PrioSession newSessionWithItems(String... texts) {
