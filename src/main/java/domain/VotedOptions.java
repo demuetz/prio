@@ -5,7 +5,7 @@ public class VotedOptions {
 
     }
 
-    public static VotedOptions withIds(int[] ids) {
+    public static VotedOptions withIds(int... ids) {
         return new VotedOptions(ids);
     }
 }
