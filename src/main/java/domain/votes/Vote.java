@@ -12,10 +12,6 @@ public class Vote {
         this.options = options;
     }
 
-    public boolean wasCastBy(Participant participant) {
-        return this.participant.equals(participant);
-    }
-
     public static Vote fromParticipantNameWithOptions(String participantName, int... optionIds) {
         return new Vote(Participant.withName(participantName), VotedOptions.withIds(optionIds));
     }
