@@ -15,4 +15,30 @@ public class Vote {
     public boolean wasCastBy(Participant participant) {
         return this.participant.equals(participant);
     }
+
+    public static Vote fromParticipantNameWithOptions(String participantName, int... optionIds) {
+        return new Vote(Participant.withName(participantName), VotedOptions.withIds(optionIds));
+    }
+
+    public Participant getParticipant() {
+        return participant;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Vote vote = (Vote) o;
+
+        return participant.equals(vote.participant) && options.equals(vote.options);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = participant.hashCode();
+        result = 31 * result + options.hashCode();
+        return result;
+    }
 }
