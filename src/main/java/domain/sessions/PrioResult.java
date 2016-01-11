@@ -1,13 +1,17 @@
 package domain.sessions;
 
 public class PrioResult {
-    private String dummy;
+    private int[] ranking;
 
-    public String getDummy() {
-        return dummy;
+    public PrioResult(int[] ranking) {
+        this.ranking = ranking;
     }
 
-    public void setDummy(String dummy) {
-        this.dummy = dummy;
+    public int[] getRanking() {
+        return ranking;
+    }
+
+    public static PrioResult error(String s) {
+        return new PrioResult(new int[]{-1});
     }
 }

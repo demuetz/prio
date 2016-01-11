@@ -23,6 +23,6 @@ public class VoteService {
     }
 
     public PrioResult resolvePrioritiesForSession(String id) {
-        return new PrioResult(); //ToDO
+        return null; //ToDO
     }
 }

@@ -39,8 +39,6 @@ public class PrioSessionResourceTest {
 
     @After
     public void tearDown(){
-        // we have to reset the mock after each test because of the
-        // @ClassRule, or use a @Rule as mentioned below.
         reset(repo);
     }
 
@@ -67,12 +65,12 @@ public class PrioSessionResourceTest {
     @Test
     public void prioritizesSession() throws Exception {
 
-        PrioResult expectedResult = new PrioResult();
+        PrioResult expectedResult = PrioResult.error("");
 
         when(service.resolvePrioritiesForSession("123")).thenReturn(expectedResult);
 
         PrioResult actualResult = request("/prioSession/123/rankedPrios").get(PrioResult.class);
-
+ //ToDo
 
     }
 }

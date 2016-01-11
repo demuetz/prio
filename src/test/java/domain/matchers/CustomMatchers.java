@@ -1,6 +1,7 @@
 package domain.matchers;
 
 import domain.Participant;
+import domain.sessions.PrioResult;
 import domain.votes.Votes;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -20,6 +21,21 @@ public class CustomMatchers {
             }
             public void describeTo(Description description) {
                 description.appendText("a Vote by each of " + String.join(", ", participantNames));
+            }
+        };
+    }
+
+    public static Matcher<PrioResult> hasRanking(int... expectedRanking){
+        return new TypeSafeMatcher<PrioResult>() {
+            @Override
+            protected boolean matchesSafely(PrioResult prioResult) {
+                return Arrays.equals(prioResult.getRanking(), expectedRanking);
+            }
+
+            @Override
+            public void describeTo(Description description) {
+
+                description.appendText("exactly this ranking: " + Arrays.toString(expectedRanking));
             }
         };
     }
