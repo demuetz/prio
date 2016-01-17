@@ -32,4 +32,7 @@ public class VotedOptions {
         return Arrays.hashCode(ids);
     }
 
+    public int[] getIds() {
+        return ids;
+    }
 }

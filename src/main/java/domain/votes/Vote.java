@@ -37,4 +37,8 @@ public class Vote {
         result = 31 * result + options.hashCode();
         return result;
     }
+
+    public int[] getRanking() {
+        return options.getIds();
+    }
 }

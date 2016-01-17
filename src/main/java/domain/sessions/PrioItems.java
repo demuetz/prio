@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.IntFunction;
+import java.util.stream.Collectors;
 
 public class PrioItems implements Iterable<PrioItem>, Collection<PrioItem> {
 
@@ -105,4 +107,7 @@ public class PrioItems implements Iterable<PrioItem>, Collection<PrioItem> {
     }
 
 
+    public Integer[] getIds() {
+        return items.stream().map(PrioItem::getId).toArray(Integer[]::new);
+    }
 }
