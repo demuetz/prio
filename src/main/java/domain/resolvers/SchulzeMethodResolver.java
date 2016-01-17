@@ -20,6 +20,14 @@ public class SchulzeMethodResolver implements PrioResolver {
 
         Map<Pair<Integer, Integer>, Integer> strongestPathWeights = calculateStrongestPathWeights(options, pwpGraph);
 
+        Map<Pair<Integer, Integer>, Integer> pairwiseWinners = pairwiseWinners(options, strongestPathWeights);
+
+        Map<Integer, Integer> scores = calculateScores(options, pairwiseWinners);
+
+        return new PrioResult(toArray(toRankedIds(scores)));
+    }
+
+    private Map<Pair<Integer, Integer>, Integer> pairwiseWinners(PrioItems options, Map<Pair<Integer, Integer>, Integer> strongestPathWeights) {
         Map<Pair<Integer, Integer>, Integer> pairwiseWinners = new HashMap<>();
 
         for (int option1 : options.getIds()){
@@ -36,13 +44,15 @@ public class SchulzeMethodResolver implements PrioResolver {
                 }
             }
         }
+        return pairwiseWinners;
+    }
 
-        Map<Integer, Integer> scores = calculateScores(options, pairwiseWinners);
+    private List<Integer> toRankedIds(Map<Integer, Integer> scores) {
+        return scores.entrySet().stream().sorted(Comparator.comparing(e -> e.getValue() * -1))
+                .map(Map.Entry::getKey).collect(Collectors.toList());
+    }
 
-        List<Integer> rankedIds =
-                scores.entrySet().stream().sorted(Comparator.comparing(e -> e.getValue() * -1))
-                        .map(Map.Entry::getKey).collect(Collectors.toList());
-
+    private int[] toArray(List<Integer> rankedIds) {
         int[] ranked = new int[rankedIds.size()];
 
         int i = 0;
@@ -50,8 +60,7 @@ public class SchulzeMethodResolver implements PrioResolver {
             ranked[i] = id;
             i++;
         }
-
-        return new PrioResult(ranked);
+        return ranked;
     }
 
     private Map<Integer, Integer> calculateScores(PrioItems options, Map<Pair<Integer, Integer>, Integer> pairwiseWinners) {
@@ -142,18 +151,20 @@ public class SchulzeMethodResolver implements PrioResolver {
 
                     if (!prefsGraph.containsEdge(option1, option2)) {
                         prefsGraph.addEdge(option1, option2);
-                        continue;
+                    } else {
+                        incrementEdgeWeight(prefsGraph, option1, option2);
                     }
-
-                    PrioWeightedEdge e = prefsGraph.getEdge(option1, option2);
-
-                    prefsGraph.setEdgeWeight(e, prefsGraph.getEdgeWeight(e) + 1.0);
                 }
                 currentOptionIndex++;
             }
         }
 
         return prefsGraph;
+    }
+
+    private void incrementEdgeWeight(SimpleDirectedWeightedGraph<Integer, PrioWeightedEdge> prefsGraph, int option1, int option2) {
+        PrioWeightedEdge e = prefsGraph.getEdge(option1, option2);
+        prefsGraph.setEdgeWeight(e, prefsGraph.getEdgeWeight(e) + 1.0);
     }
 
 
