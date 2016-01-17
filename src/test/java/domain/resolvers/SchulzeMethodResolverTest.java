@@ -16,10 +16,12 @@ public class SchulzeMethodResolverTest {
     private SchulzeMethodResolver sut = new SchulzeMethodResolver();
 
 
+    //ToDo: Test for ties
+
     @Test
     public void onlyOneVoteWithAllOptionsYieldsResultMatchingVote() throws Exception {
 
-        PrioItems options = PrioItems.fromTexts("one", "two", "three");
+        PrioItems options = PrioItems.fromTexts("A", "B", "D");
         Votes singleVote = singleVote("bernie", 2, 1, 3);
 
         PrioResult r = sut.resolve(options, singleVote);
