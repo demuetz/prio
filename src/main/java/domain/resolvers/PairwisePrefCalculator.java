@@ -6,11 +6,11 @@ import java.util.Map;
 import static domain.resolvers.PairwisePref.pwp;
 
 public class PairwisePrefCalculator {
-    public PairwisePref[] resolve(int[][] input) {
+    public PairwisePref[] resolve(int[][] rankings) {
 
         Map<Pair, Integer> result = new HashMap<>();
 
-        for (int[] ranking : input){
+        for (int[] ranking : rankings){
 
             int currentOptionIndex = 0;
 
