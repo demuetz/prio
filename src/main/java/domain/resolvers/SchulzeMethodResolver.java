@@ -18,37 +18,16 @@ public class SchulzeMethodResolver implements PrioResolver {
 
         SimpleDirectedWeightedGraph<Integer, PrioWeightedEdge> pwpGraph = calculatePairwisePrefs(options, votes);
 
-        Map<Pair<Integer, Integer>, Integer> strongestPathWeights = calculateStrongestPathWeights(options, pwpGraph);
+        StrongestPathWeights strongestPathWeights = calculateStrongestPathWeights(options, pwpGraph);
 
-        Map<Pair<Integer, Integer>, Integer> pairwiseWinners = pairwiseWinners(options, strongestPathWeights);
-
-        Map<Integer, Integer> scores = calculateScores(options, pairwiseWinners);
+        Map<Integer, Integer> scores = strongestPathWeights.calculateScores();
 
         return new PrioResult(toArray(toRankedIds(scores)));
     }
 
-    private Map<Pair<Integer, Integer>, Integer> pairwiseWinners(PrioItems options, Map<Pair<Integer, Integer>, Integer> strongestPathWeights) {
-        Map<Pair<Integer, Integer>, Integer> pairwiseWinners = new HashMap<>();
-
-        for (int option1 : options.getIds()){
-            for (int option2 : options.getIds()){
-                if (option1 != option2){
-                    Pair<Integer, Integer> o1Wins = new Pair<>(option1, option2);
-                    Pair<Integer, Integer> o2Wins = new Pair<>(option2, option1);
-
-                    if (strongestPathWeights.get(o1Wins) > strongestPathWeights.get(o2Wins)){
-                        pairwiseWinners.put(o1Wins, strongestPathWeights.get(o1Wins));
-                    } else {
-                        pairwiseWinners.put(o2Wins, strongestPathWeights.get(o2Wins));
-                    }
-                }
-            }
-        }
-        return pairwiseWinners;
-    }
-
     private List<Integer> toRankedIds(Map<Integer, Integer> scores) {
-        return scores.entrySet().stream().sorted(Comparator.comparing(e -> e.getValue() * -1))
+        return scores.entrySet().stream()
+                .sorted(Comparator.comparing(e -> e.getValue() * -1))
                 .map(Map.Entry::getKey).collect(Collectors.toList());
     }
 
@@ -63,34 +42,16 @@ public class SchulzeMethodResolver implements PrioResolver {
         return ranked;
     }
 
-    private Map<Integer, Integer> calculateScores(PrioItems options, Map<Pair<Integer, Integer>, Integer> pairwiseWinners) {
-        Map<Integer, Integer> scores = new HashMap<>();
-
-        for (Pair<Integer, Integer> winner : pairwiseWinners.keySet()){
-
-            int previousScore = scores.containsKey(winner.getKey()) ? scores.get(winner.getKey()) : 0;
-
-            scores.put(winner.getKey(), pairwiseWinners.get(winner) + previousScore);
-        }
-
-        for(int option : options.getIds()){
-            if (!scores.containsKey(option))
-                scores.put(option, 0);
-        }
-
-        return scores;
-    }
-
-    private Map<Pair<Integer, Integer>, Integer> calculateStrongestPathWeights(PrioItems options, SimpleDirectedWeightedGraph<Integer, PrioWeightedEdge> pwpGraph) {
+    private StrongestPathWeights calculateStrongestPathWeights(PrioItems options, SimpleDirectedWeightedGraph<Integer, PrioWeightedEdge> pwpGraph) {
         Map<Pair<Integer, Integer>, Integer> strongestPathWeights = new HashMap<>();
 
-        for (int option1 : options.getIds()){
-            for (int option2 : options.getIds()){
-                if (option1 != option2){
-                    Pair<Integer, Integer> pair = new Pair<>(option1, option2);
+        for (int winner : options.getIds()){
+            for (int loser : options.getIds()){
+                if (winner != loser){
+                    Pair<Integer, Integer> pair = new Pair<>(winner, loser);
 
-                    int e1_2 = weight(pwpGraph, option1, option2);
-                    int e2_1 = weight(pwpGraph, option2, option1);
+                    int e1_2 = weight(pwpGraph, winner, loser);
+                    int e2_1 = weight(pwpGraph, loser, winner);
 
                     int w = e1_2 > e2_1 ? e1_2 : 0;
 
@@ -116,12 +77,12 @@ public class SchulzeMethodResolver implements PrioResolver {
                 }
             }
         }
-        return strongestPathWeights;
+        return new StrongestPathWeights(strongestPathWeights);
     }
 
-    private int weight(SimpleDirectedWeightedGraph<Integer, PrioWeightedEdge> pwpGraph, int option1, int option2) {
+    private int weight(SimpleDirectedWeightedGraph<Integer, PrioWeightedEdge> pwpGraph, int winner, int loser) {
 
-        PrioWeightedEdge edge = pwpGraph.getEdge(option1, option2);
+        PrioWeightedEdge edge = pwpGraph.getEdge(winner, loser);
 
         if (edge == null) return 0;
 
@@ -143,16 +104,16 @@ public class SchulzeMethodResolver implements PrioResolver {
 
             int[] ranking = v.getRanking();
 
-            for (int option1 : ranking){
+            for (int winner : ranking){
 
                 for (int i = currentOptionIndex+1; i < ranking.length; i++) {
 
-                    int option2 = ranking[i];
+                    int loser = ranking[i];
 
-                    if (!prefsGraph.containsEdge(option1, option2)) {
-                        prefsGraph.addEdge(option1, option2);
+                    if (!prefsGraph.containsEdge(winner, loser)) {
+                        prefsGraph.addEdge(winner, loser);
                     } else {
-                        incrementEdgeWeight(prefsGraph, option1, option2);
+                        incrementEdgeWeight(prefsGraph, winner, loser);
                     }
                 }
                 currentOptionIndex++;
@@ -162,11 +123,8 @@ public class SchulzeMethodResolver implements PrioResolver {
         return prefsGraph;
     }
 
-    private void incrementEdgeWeight(SimpleDirectedWeightedGraph<Integer, PrioWeightedEdge> prefsGraph, int option1, int option2) {
-        PrioWeightedEdge e = prefsGraph.getEdge(option1, option2);
+    private void incrementEdgeWeight(SimpleDirectedWeightedGraph<Integer, PrioWeightedEdge> prefsGraph, int winner, int loser) {
+        PrioWeightedEdge e = prefsGraph.getEdge(winner, loser);
         prefsGraph.setEdgeWeight(e, prefsGraph.getEdgeWeight(e) + 1.0);
     }
-
-
 }
-
