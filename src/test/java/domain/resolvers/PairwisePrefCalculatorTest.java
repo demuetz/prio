@@ -3,6 +3,7 @@ package domain.resolvers;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -14,6 +15,7 @@ public class PairwisePrefCalculatorTest {
 
     private PairwisePrefCalculator sut = new PairwisePrefCalculator();
 
+    @Ignore("can be deleted")
     @Test
     public void prefsMatchForSingleRankingInput() throws Exception {
 
@@ -24,6 +26,7 @@ public class PairwisePrefCalculatorTest {
         assertThat(result, matches(pwp(30,20,1), pwp(30,10,1), pwp(20,10,1)));
     }
 
+    @Ignore("can be deleted")
     @Test
     public void prefsMatchForTwoRankingInputs() throws Exception {
 

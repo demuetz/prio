@@ -8,10 +8,7 @@ import domain.sessions.PrioSession;
 import domain.sessions.PrioSessionRepo;
 import domain.votes.VoteService;
 import io.dropwizard.testing.junit.ResourceTestRule;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.*;
 
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.Response;
@@ -62,6 +59,7 @@ public class PrioSessionResourceTest {
         return resources.client().target(path).request();
     }
 
+    @Ignore("work in progress")
     @Test
     public void prioritizesSession() throws Exception {
 
