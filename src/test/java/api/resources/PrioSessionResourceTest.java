@@ -3,17 +3,23 @@ package api.resources;
 import api.exceptionMapping.UnknownAggregateRootExceptionMapper;
 import api.representations.PrioSessionDto;
 import domain.UnknownAggregateRootException;
+import domain.sessions.PrioItems;
 import domain.sessions.PrioResult;
 import domain.sessions.PrioSession;
 import domain.sessions.PrioSessionRepo;
 import domain.votes.VoteService;
+import domain.votes.Votes;
 import io.dropwizard.testing.junit.ResourceTestRule;
 import org.junit.*;
 
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.Response;
 
+import java.util.HashMap;
+
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -59,16 +65,15 @@ public class PrioSessionResourceTest {
         return resources.client().target(path).request();
     }
 
-    @Ignore("work in progress")
     @Test
     public void prioritizesSession() throws Exception {
 
-        PrioResult expectedResult = PrioResult.error("");
+        PrioResult expectedResult = PrioResult.fromItemsVotesAndScores(PrioItems.empty(), Votes.empty(), new HashMap<>());
 
         when(service.resolvePrioritiesForSession("123")).thenReturn(expectedResult);
 
-        PrioResult actualResult = request("/prioSession/123/rankedPrios").get(PrioResult.class);
- //ToDo
+        Response r = request("/prioSession/123/rankedPrios").get();
 
+        assertThat(r.getStatus(), is(200));
     }
 }

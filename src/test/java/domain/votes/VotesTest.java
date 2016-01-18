@@ -1,13 +1,7 @@
 package domain.votes;
 
-import domain.Participant;
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 import static domain.matchers.CustomMatchers.containsVotesFrom;
 import static org.hamcrest.Matchers.is;

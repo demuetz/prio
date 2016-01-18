@@ -1,6 +1,5 @@
 package domain.votes;
 
-import domain.Participant;
 import domain.UnknownAggregateRootException;
 import domain.sessions.PrioSession;
 import domain.sessions.PrioSessionRepo;

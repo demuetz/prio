@@ -54,4 +54,8 @@ public class Votes implements Iterable<Vote> {
 
         return "Votes{" + String.join(", ", first5Names) + "}";
     }
+
+    public int getCount() {
+        return votes.size();
+    }
 }
