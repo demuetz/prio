@@ -3,17 +3,14 @@ package domain.sessions;
 import domain.votes.Vote;
 import domain.votes.Votes;
 
-import java.util.UUID;
-
 public class PrioSession {
 
     private String id;
     private PrioItems items;
     private Votes votes = Votes.empty();
 
-    public static PrioSession create() {
-
-        return new PrioSession(UUID.randomUUID().toString(), PrioItems.empty());
+    public static PrioSessionBuilder newSession() {
+        return new PrioSessionBuilder().newSession();
     }
 
     public PrioSession(String id, PrioItems items) {
@@ -23,9 +20,18 @@ public class PrioSession {
     }
 
 
+    public void addItems(PrioItems newItems) {
+        items = items.join(newItems);
+    }
+
+    public PrioResult prioritize(PrioResolver resolver) {
+        return resolver.resolve(items, votes);
+    }
+
     public void accept(Vote vote) {
         votes.add(vote);
     }
+
 
     public String getId() {
         return id;
@@ -33,19 +39,5 @@ public class PrioSession {
 
     public PrioItems getItems() {
         return items;
-    }
-
-
-
-    public void addItems(PrioItems newItems) {
-        items = items.join(newItems);
-    }
-
-    public static PrioSessionBuilder newSession() {
-        return new PrioSessionBuilder().newSession();
-    }
-
-    public void prioritize(PrioResolver resolver) {
-        resolver.resolve(items, votes);
     }
 }

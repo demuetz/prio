@@ -1,5 +1,6 @@
 package domain.votes;
 
+import domain.resolvers.SchulzeMethodResolver;
 import domain.sessions.PrioResult;
 import domain.sessions.PrioSession;
 import domain.sessions.PrioSessionRepo;
@@ -22,7 +23,10 @@ public class VoteService {
         repo.update(session);
     }
 
-    public PrioResult resolvePrioritiesForSession(String id) {
-        return null; //ToDO
+    public PrioResult resolvePrioritiesForSession(String sessionId) throws UnknownAggregateRootException {
+
+        PrioSession session = repo.findById(sessionId);
+
+        return session.prioritize(new SchulzeMethodResolver());
     }
 }

@@ -55,7 +55,7 @@ public class PrioSessionResource {
     @POST
     public Response create(PrioSessionDto dto){
 
-        PrioSession s = PrioSession.create();
+        PrioSession s = PrioSession.newSession().build();
 
         String[] itemTexts = dto.getItems().stream().map(PrioItemDto::getText).toArray(String[]::new);
 
@@ -82,7 +82,7 @@ public class PrioSessionResource {
 
     @GET
     @Path("{id}/rankedPrios")
-    public PrioResult getCurrentPriorities(@PathParam("id") String id){
+    public PrioResult getCurrentPriorities(@PathParam("id") String id) throws UnknownAggregateRootException {
         return service.resolvePrioritiesForSession(id);
     }
 }
