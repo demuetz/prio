@@ -1,13 +1,16 @@
 package domain.matchers;
 
 import domain.Participant;
-import domain.sessions.PrioResult;
+import domain.sessions.RankedItem;
+import domain.sessions.Ranking;
 import domain.votes.Votes;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class CustomMatchers {
     public static Matcher<Votes> containsVotesFrom(String... participantNames) {
@@ -25,11 +28,18 @@ public class CustomMatchers {
         };
     }
 
-    public static Matcher<PrioResult> hasRanking(int... expectedRanking){
-        return new TypeSafeMatcher<PrioResult>() {
+    public static Matcher<Ranking> hasRanking(Integer... expectedRanking){
+        return new TypeSafeMatcher<Ranking>() {
             @Override
-            protected boolean matchesSafely(PrioResult prioResult) {
-                return Arrays.equals(prioResult.getRanking(), expectedRanking);
+            protected boolean matchesSafely(Ranking ranking) {
+
+                List<Integer> idsInOrder = new ArrayList<>();
+
+                for (RankedItem item : ranking){
+                    idsInOrder.add(item.getId());
+                }
+
+                return Arrays.equals(idsInOrder.toArray(new Integer[idsInOrder.size()]), expectedRanking);
             }
 
             @Override

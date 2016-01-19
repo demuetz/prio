@@ -6,7 +6,7 @@ import api.representations.PrioSessionDto;
 import api.representations.VoteDto;
 import domain.*;
 import domain.sessions.PrioItems;
-import domain.sessions.PrioResult;
+import domain.sessions.Ranking;
 import domain.sessions.PrioSession;
 import domain.sessions.PrioSessionRepo;
 import domain.votes.Vote;
@@ -84,7 +84,7 @@ public class PrioSessionResource {
     @GET
     @Path("{id}/rankedPrios")
     public PrioResultDto getCurrentPriorities(@PathParam("id") String id) throws UnknownAggregateRootException {
-        PrioResult prioResult = service.resolvePrioritiesForSession(id);
+        Ranking prioResult = service.resolvePrioritiesForSession(id);
         return new PrioResultDto(new int[0]);
     }
 }

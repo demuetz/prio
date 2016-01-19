@@ -24,7 +24,7 @@ public class PrioSession {
         items = items.join(newItems);
     }
 
-    public PrioResult prioritize(PrioResolver resolver) {
+    public Ranking prioritize(PrioResolver resolver) {
         return resolver.resolve(items, votes);
     }
 

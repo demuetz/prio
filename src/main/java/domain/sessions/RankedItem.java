@@ -44,4 +44,8 @@ public class RankedItem {
                 ", rank=" + rank +
                 '}';
     }
+
+    public int getId() {
+        return itemId;
+    }
 }

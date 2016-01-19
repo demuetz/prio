@@ -19,7 +19,7 @@ public class PrioResultTest {
 
         PrioItems items = PrioItems.fromTexts("A", "B", "C");
 
-        PrioResult sut = PrioResult.fromItemsVotesAndScores(items, votes(15), someScores(items));
+        Ranking sut = Ranking.fromItemsVotesAndScores(items, votes(15), someScores(items));
 
         assertThat(sut.getVoteCount(), is(15));
     }
@@ -31,7 +31,7 @@ public class PrioResultTest {
 
         Map<Integer, Integer> scores = scores(0, 20, 10);
 
-        PrioResult sut = PrioResult.fromItemsVotesAndScores(items, votes(15), scores);
+        Ranking sut = Ranking.fromItemsVotesAndScores(items, votes(15), scores);
 
         assertThat(sut, contains(
                 new RankedItem(2, "B", 1, 20),
@@ -46,7 +46,7 @@ public class PrioResultTest {
 
         Map<Integer, Integer> scores = scores(0, 10, 10, 20);
 
-        PrioResult sut = PrioResult.fromItemsVotesAndScores(items, votes(15), scores);
+        Ranking sut = Ranking.fromItemsVotesAndScores(items, votes(15), scores);
 
         assertThat(sut, contains(
                 new RankedItem(4, "D", 1, 20),

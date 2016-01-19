@@ -1,7 +1,7 @@
 package domain.resolvers;
 
 import domain.sessions.PrioItems;
-import domain.sessions.PrioResult;
+import domain.sessions.Ranking;
 import domain.votes.Vote;
 import domain.votes.Votes;
 import org.junit.Test;
@@ -24,7 +24,7 @@ public class SchulzeMethodResolverTest {
         PrioItems options = PrioItems.fromTexts("A", "B", "D");
         Votes singleVote = singleVote("bernie", 2, 1, 3);
 
-        PrioResult r = sut.resolve(options, singleVote);
+        Ranking r = sut.resolve(options, singleVote);
 
         assertThat(r , hasRanking(2, 1, 3));
     }
@@ -34,7 +34,7 @@ public class SchulzeMethodResolverTest {
 
         PrioItems options = PrioItems.fromTexts("A", "B", "C", "D", "E");
 
-        PrioResult r = sut.resolve(options, wikipediaExampleVotes());
+        Ranking r = sut.resolve(options, wikipediaExampleVotes());
 
         assertThat(r , hasRanking(5, 1, 3, 2, 4)); // EACBD
     }

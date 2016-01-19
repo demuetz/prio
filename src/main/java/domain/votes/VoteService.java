@@ -1,7 +1,7 @@
 package domain.votes;
 
 import domain.resolvers.SchulzeMethodResolver;
-import domain.sessions.PrioResult;
+import domain.sessions.Ranking;
 import domain.sessions.PrioSession;
 import domain.sessions.PrioSessionRepo;
 import domain.UnknownAggregateRootException;
@@ -23,7 +23,7 @@ public class VoteService {
         repo.update(session);
     }
 
-    public PrioResult resolvePrioritiesForSession(String sessionId) throws UnknownAggregateRootException {
+    public Ranking resolvePrioritiesForSession(String sessionId) throws UnknownAggregateRootException {
 
         PrioSession session = repo.findById(sessionId);
 

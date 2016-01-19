@@ -4,7 +4,7 @@ import api.exceptionMapping.UnknownAggregateRootExceptionMapper;
 import api.representations.PrioSessionDto;
 import domain.UnknownAggregateRootException;
 import domain.sessions.PrioItems;
-import domain.sessions.PrioResult;
+import domain.sessions.Ranking;
 import domain.sessions.PrioSession;
 import domain.sessions.PrioSessionRepo;
 import domain.votes.VoteService;
@@ -68,7 +68,7 @@ public class PrioSessionResourceTest {
     @Test
     public void prioritizesSession() throws Exception {
 
-        PrioResult expectedResult = PrioResult.fromItemsVotesAndScores(PrioItems.empty(), Votes.empty(), new HashMap<>());
+        Ranking expectedResult = Ranking.fromItemsVotesAndScores(PrioItems.empty(), Votes.empty(), new HashMap<>());
 
         when(service.resolvePrioritiesForSession("123")).thenReturn(expectedResult);
 
