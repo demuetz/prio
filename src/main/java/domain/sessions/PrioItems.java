@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.IntFunction;
-import java.util.stream.Collectors;
 
 public class PrioItems implements Iterable<PrioItem>, Collection<PrioItem> {
 
@@ -68,6 +66,7 @@ public class PrioItems implements Iterable<PrioItem>, Collection<PrioItem> {
 
     @Override
     public <T> T[] toArray(T[] a) {
+        //noinspection SuspiciousToArrayCall
         return items.toArray(a);
     }
 
@@ -106,8 +105,10 @@ public class PrioItems implements Iterable<PrioItem>, Collection<PrioItem> {
         items.clear();
     }
 
-
-    public Integer[] getIds() {
-        return items.stream().map(PrioItem::getId).toArray(Integer[]::new);
+    public String textForId(int id) {
+        for (PrioItem item : items){
+            if (item.getId() == id) return item.getText();
+        }
+        return "[???]";
     }
 }
