@@ -5,11 +5,9 @@ import domain.sessions.PrioResolver;
 import domain.sessions.PrioResult;
 import domain.votes.Votes;
 
-import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
+// https://en.wikipedia.org/wiki/Schulze_method
 public class SchulzeMethodResolver implements PrioResolver {
 
     @Override

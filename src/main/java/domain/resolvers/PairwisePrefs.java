@@ -26,8 +26,6 @@ public class PairwisePrefs {
 
             for (int winner : ranking){
 
-                prefsGraph.addVertex(winner);
-
                 for (int i = currentOptionIndex+1; i < ranking.length; i++) {
 
                     int loser = ranking[i];
@@ -69,6 +67,8 @@ public class PairwisePrefs {
         return (int) prefsGraph.getEdgeWeight(edge);
     }
 
+    // Variant of Floyd-Warshall Algorithm
+    // See https://en.wikipedia.org/wiki/Schulze_method#Implementation
     public StrongestPathWeights calculateStrongestPathWeights() {
         Set<Integer> options = prefsGraph.vertexSet();
 
