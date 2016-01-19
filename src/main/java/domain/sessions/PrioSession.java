@@ -29,6 +29,8 @@ public class PrioSession {
     }
 
     public void accept(Vote vote) {
+
+        //ToDo: Assert that vote matches options
         votes.add(vote);
     }
 

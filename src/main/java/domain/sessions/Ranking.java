@@ -53,4 +53,8 @@ public class Ranking implements Iterable<RankedItem>{
     public Iterator<RankedItem> iterator() {
         return rankedItems.iterator();
     }
+
+    public RankedItem[] getItems() {
+        return rankedItems.toArray(new RankedItem[rankedItems.size()]);
+    }
 }

@@ -1,5 +1,6 @@
 package domain.sessions;
 
+@SuppressWarnings("unused")
 public class RankedItem {
     private final int itemId;
     private final String itemText;
@@ -47,5 +48,17 @@ public class RankedItem {
 
     public int getId() {
         return itemId;
+    }
+
+    public String getText() {
+        return itemText;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public int getScore() {
+        return score;
     }
 }
